@@ -1,0 +1,4 @@
+Test 1: N=180429  program=16277402235  formula=16277402235  PASS
+Test 2: N=366338  program=67101948291  formula=67101948291  PASS
+Test 3: N=196639  program=19333546480  formula=19333546480  PASS
+Result: 3/3 passed
