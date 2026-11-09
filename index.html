@@ -158,7 +158,8 @@ To https://github.com/Samuel950910/midterm-exam
 <div class="sub2">① 輸入區域：前四題的結果 <span class="src" id="srcTag">已驗證資料（來自 grade.sh）</span></div>
 <div class="inbox">
  <div class="row"><span class="k">一、編譯是否成功</span><select id="i1c" disabled><option value="1">成功</option><option value="0">失敗</option></select></div>
- <div class="row"><span class="k">一、N=10 的輸出結果（應為 55）</span><input id="i1v" type="number" value="55" disabled></div>
+ <div class="row"><span class="k">一、測試的 N（範例：10）</span><input id="i1n" type="number" min="1" value="10" disabled></div>
+ <div class="row"><span class="k">一、程式輸出的總和</span><input id="i1v" type="number" value="55" disabled></div>
  <div class="row"><span class="k">二、三次隨機測試通過次數</span><input id="i2" type="number" min="0" max="3" value="3" disabled><span>/ 3</span></div>
  <div class="row"><span class="k">三、Git commit 版本</span><select id="i3" disabled><option value="2">v1 原版 + v2 註解版</option><option value="1">只有 v1</option><option value="0">沒有 commit</option></select></div>
  <div class="row"><span class="k">四、是否已推送到 GitHub</span><select id="i4" disabled><option value="1">已推送</option><option value="0">未推送</option></select></div>
@@ -195,14 +196,14 @@ Result: 3/3 passed
 </section>
 </main>
 <script>
-const V={i1c:'1',i1v:'55',i2:'3',i3:'2',i4:'1'};
+const V={i1c:'1',i1n:'10',i1v:'55',i2:'3',i3:'2',i4:'1'};
 const $=id=>document.getElementById(id);
 let manual=false;
 function rules(){
- const c1=$('i1c').value==='1', v1=+$('i1v').value, n2=+$('i2').value, n3=+$('i3').value, p4=$('i4').value==='1';
+ const c1=$('i1c').value==='1', v1=+$('i1v').value, n1=Math.floor(+$('i1n').value), e1=n1*(n1+1)/2, n2=+$('i2').value, n3=+$('i3').value, p4=$('i4').value==='1';
  return [
-  {t:'第一題：編譯與執行', ok:c1&&v1===55, det:`編譯：${c1?'成功':'失敗'}；N=10 輸出：${$('i1v').value||'（空白）'}`,
-   why:!c1?'程式必須能成功編譯。':'N=10 時 1+2+…+10 應為 55，輸出不正確。'},
+  {t:'第一題：編譯與執行', ok:c1&&n1>=1&&$('i1v').value!==''&&v1===e1, det:`編譯：${c1?'成功':'失敗'}；N=${$('i1n').value||'（空白）'} 輸出：${$('i1v').value||'（空白）'}（公式答案 ${n1>=1?e1:'—'}）`,
+   why:!c1?'程式必須能成功編譯。':!(n1>=1)?'N 必須是正整數。':`1 加到 ${n1} 依公式 N(N+1)/2 應為 ${e1}，程式輸出不符。`},
   {t:'第二題：三次隨機測試', ok:n2===3, det:`測試結果：${n2} / 3 次通過`, why:'需要通過全部三次隨機測試，才能取得此項的 20 分。'},
   {t:'第三題：Git 版本控制', ok:n3>=2, det:`版本：${['沒有 commit','只有 v1','v1 原版 + v2 註解版'][n3]}`,
    why:'需要先 commit 原版（v1），再 commit 逐行註解並驗證過的新版（v2）。'},
@@ -220,7 +221,7 @@ function grade(){
  return {r,s};
 }
 function setMode(m){
- manual=m; ['i1c','i1v','i2','i3','i4'].forEach(id=>$(id).disabled=!m);
+ manual=m; ['i1c','i1n','i1v','i2','i3','i4'].forEach(id=>$(id).disabled=!m);
  if(!m) for(const k in V) $(k).value=V[k];
  $('srcTag').textContent=m?'手動輸入（試算）':'已驗證資料（來自 grade.sh）';
  $('srcTag').className='src'+(m?' manual':'');
@@ -230,7 +231,7 @@ function setMode(m){
 $('btnRegrade').onclick=grade;
 $('btnMode').onclick=()=>setMode(!manual);
 $('btnReset').onclick=()=>setMode(false);
-['i1c','i1v','i2','i3','i4'].forEach(id=>$(id).addEventListener('input',grade));
+['i1c','i1n','i1v','i2','i3','i4'].forEach(id=>$(id).addEventListener('input',grade));
 $('btnDl').onclick=()=>{
  const {r,s}=grade();
  const txt=['Fortran 期中考作業 評分報告','姓名：熊振勛　學號：414210087',
