@@ -130,10 +130,10 @@ TOTAL: 100 / 100
 </pre>
 <p>(2) 線上評分器：輸入前四題的結果，達標的題目各得 20 分。</p>
 <form id="f">
-<label><input type="checkbox" id="q1" checked> 一、程式編譯成功；N=10 的輸出結果：<span class="val" id="q1v">55</span></label>
-<label><input type="checkbox" id="q2c" checked> 二、三次隨機驗證完成；通過次數：<span class="val" id="q2">3</span> / 3</label>
-<label><input type="checkbox" id="q3c" checked> 三、Git 版本控制完成；commit 數：<span class="val" id="q3">2</span>（需 ≥ 2）</label>
-<label><input type="checkbox" id="q4" checked> 四、已推送到 GitHub</label>
+<label><input type="checkbox" id="q1" checked onclick="return false"> 一、程式編譯成功；N=10 的輸出結果：<span class="val" id="q1v">55</span></label>
+<label><input type="checkbox" id="q2c" checked onclick="return false"> 二、三次隨機驗證完成；通過次數：<span class="val" id="q2">3</span> / 3</label>
+<label><input type="checkbox" id="q3c" checked onclick="return false"> 三、Git 版本控制完成；commit 數：<span class="val" id="q3">2</span>（需 ≥ 2）</label>
+<label><input type="checkbox" id="q4" checked onclick="return false"> 四、已推送到 GitHub</label>
 </form>
 <table id="t"><tr><th>題目</th><th>結果</th><th>得分</th></tr></table>
 <p>總分：<span id="total"></span></p></section>
