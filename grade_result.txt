@@ -1,0 +1,6 @@
+[PASS] Q1 compile & run (N=10 -> 55) (+20)
+[PASS] Q2 three random tests (+20)
+[PASS] Q3 git v1 (original) + v2 (commented) (+20)
+[PASS] Q4 pushed to GitHub (+20)
+[PASS] Q5 grading system executed (+20)
+TOTAL: 100 / 100

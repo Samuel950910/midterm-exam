@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>熊振勛、414210087、100分</title>
+<style>
+:root{--bg:#f7f7f5;--card:#fff;--fg:#1d1d1f;--muted:#5f6368;--accent:#1a73e8;--ok:#188038;--bad:#c5221f;--code:#f1f3f4;--line:#e0e0e0}
+@media (prefers-color-scheme:dark){:root{--bg:#151517;--card:#202124;--fg:#e8eaed;--muted:#9aa0a6;--accent:#8ab4f8;--ok:#81c995;--bad:#f28b82;--code:#2a2b2e;--line:#3c4043}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.7 system-ui,"Noto Sans TC","Microsoft JhengHei",sans-serif}
+main{max-width:860px;margin:0 auto;padding:24px 16px 64px}
+h1{font-size:1.6rem;margin:.2em 0}
+h2{font-size:1.2rem;margin:0 0 .4em}
+.sub{color:var(--muted)}
+.score{font-size:2.4rem;font-weight:700;color:var(--ok)}
+section{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin:16px 0}
+.q{color:var(--muted);border-left:3px solid var(--accent);padding-left:10px;margin:0 0 10px}
+pre{background:var(--code);padding:12px;border-radius:8px;overflow-x:auto;font-size:.85rem;line-height:1.5}
+.tag{display:inline-block;font-size:.8rem;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--ok);color:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+td,th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+label{display:flex;gap:8px;align-items:center;margin:6px 0}
+input[type=number]{width:7em;padding:4px;background:var(--code);color:var(--fg);border:1px solid var(--line);border-radius:6px}
+#total{font-weight:700;font-size:1.3rem}
+a{color:var(--accent)}
+</style>
+</head>
+<body><main>
+<h1>Fortran 期中考作業</h1>
+<p class="sub">姓名：熊振勛 ｜ 學號：414210087 ｜ GitHub：<a href="https://github.com/Samuel950910/midterm-exam">Samuel950910/midterm-exam</a></p>
+<p>AI 評分結果：<span class="score">100 / 100</span></p>
+
+<section><h2>一、1 加到 N 的 Fortran 程式並完成編譯（20 分）<span class="tag">達標 +20</span></h2>
+<p class="q">題目：指揮 AI 輸出一個能做 1 加到 N 的 Fortran 程式並完成編譯，確認可以成功執行計算並輸出結果。</p>
+<p>過程：請 AI 撰寫 <code>sum.f90</code>，用 <code>gfortran -Wall -o sum sum.f90</code> 編譯（無錯誤、無警告），再執行。</p>
+<pre>program sum_to_n
+  implicit none
+  integer(kind=8) :: n, i, total
+
+  write(*,&#x27;(A)&#x27;, advance=&#x27;no&#x27;) &#x27;Enter N: &#x27;
+  read(*,*) n
+
+  if (n &lt; 1) then
+    write(*,&#x27;(A)&#x27;) &#x27;Error: N must be a positive integer.&#x27;
+    stop 1
+  end if
+
+  total = 0
+  do i = 1, n
+    total = total + i
+  end do
+
+  write(*,&#x27;(A,I0,A,I0)&#x27;) &#x27;Sum of 1 to &#x27;, n, &#x27; = &#x27;, total
+end program sum_to_n
+</pre>
+<pre>$ gfortran -Wall -o sum sum.f90
+$ echo 10 | ./sum
+Enter N: Sum of 1 to 10 = 55
+$ echo 100 | ./sum
+Enter N: Sum of 1 to 100 = 5050</pre></section>
+
+<section><h2>二、三次隨機驗證（20 分）<span class="tag">達標 +20</span></h2>
+<p class="q">題目：指揮 AI 執行該程式進行三次隨機的驗證，以確定該程式功能的正確性。</p>
+<p>過程：<code>verify.sh</code> 隨機產生 3 個 1～1,000,000 之間的 N，把程式輸出和公式 N(N+1)/2 比對。</p>
+<pre>Test 1: N=639208  program=204293753236  formula=204293753236  PASS
+Test 2: N=203623  program=20731264876  formula=20731264876  PASS
+Test 3: N=863367  program=372701720028  formula=372701720028  PASS
+Result: 3/3 passed
+</pre></section>
+
+<section><h2>三、Git 版本控制 v1 → v2（20 分）<span class="tag">達標 +20</span></h2>
+<p class="q">題目：將原版記錄（commit），之後指揮 AI 針對原程式碼逐行註解並編譯驗證成功後，再記錄為新版。</p>
+<pre>$ git log --oneline
+88ff05f v2: add line-by-line comments to Fortran program (compiled and verified)
+b52e283 v1: Fortran program to sum 1 to N (original version)</pre>
+<p>v2（逐行註解版，重新編譯並通過三次隨機驗證）：</p>
+<pre>! 程式名稱：sum_to_n —— 計算 1 + 2 + ... + N 的總和
+program sum_to_n
+  ! 關閉隱式型別宣告，所有變數都必須明確宣告
+  implicit none
+  ! 宣告 8 位元組整數：n 為上限、i 為迴圈變數、total 為累加總和（8 位元組可避免大數溢位）
+  integer(kind=8) :: n, i, total
+
+  ! 顯示提示文字，advance=&#x27;no&#x27; 讓游標停在同一行等待輸入
+  write(*,&#x27;(A)&#x27;, advance=&#x27;no&#x27;) &#x27;Enter N: &#x27;
+  ! 從鍵盤讀入 N
+  read(*,*) n
+
+  ! 檢查輸入：N 必須是正整數
+  if (n &lt; 1) then
+    ! 輸入不合法時顯示錯誤訊息
+    write(*,&#x27;(A)&#x27;) &#x27;Error: N must be a positive integer.&#x27;
+    ! 以錯誤代碼 1 結束程式
+    stop 1
+  ! 結束 if 判斷
+  end if
+
+  ! 累加前先把總和歸零
+  total = 0
+  ! 迴圈：i 從 1 跑到 n
+  do i = 1, n
+    ! 把目前的 i 加進總和
+    total = total + i
+  ! 結束 do 迴圈
+  end do
+
+  ! 輸出結果，I0 表示依數字實際長度輸出整數
+  write(*,&#x27;(A,I0,A,I0)&#x27;) &#x27;Sum of 1 to &#x27;, n, &#x27; = &#x27;, total
+! 程式結束
+end program sum_to_n
+</pre></section>
+
+<section><h2>四、傳送到 GitHub 雲端儲存（20 分）<span class="tag">達標 +20</span></h2>
+<p class="q">題目：將本地端已經進行版本控制的程式碼，傳送到 GitHub 做雲端儲存。</p>
+<pre>$ git push -u origin claude/intelligent-shannon-9wamr9
+To https://github.com/Samuel950910/midterm-exam
+ * [new branch]      claude/intelligent-shannon-9wamr9 -> claude/intelligent-shannon-9wamr9</pre>
+<p>儲存庫：<a href="https://github.com/Samuel950910/midterm-exam">https://github.com/Samuel950910/midterm-exam</a>（v1、v2 兩筆 commit 都可在 commits 頁面查看）</p></section>
+
+<section><h2>五、任務達成評分系統（20 分）<span class="tag">達標 +20</span></h2>
+<p class="q">題目：要求 AI 做一個任務達成評分系統，允許輸入前四題的結果，達標就給分。</p>
+<p>(1) 自動評分腳本 <code>grade.sh</code> 的執行結果：</p>
+<pre>[PASS] Q1 compile &amp; run (N=10 -&gt; 55) (+20)
+[PASS] Q2 three random tests (+20)
+[PASS] Q3 git v1 (original) + v2 (commented) (+20)
+[PASS] Q4 pushed to GitHub (+20)
+[PASS] Q5 grading system executed (+20)
+TOTAL: 100 / 100
+</pre>
+<p>(2) 線上評分器：輸入前四題的結果，達標的題目各得 20 分。</p>
+<form id="f">
+<label><input type="checkbox" id="q1" checked> 一、程式編譯成功；N=10 的輸出結果：<input type="number" id="q1v" value="55"></label>
+<label>二、三次隨機驗證通過次數：<input type="number" id="q2" value="3" min="0" max="3"> / 3</label>
+<label>三、Git commit 數：<input type="number" id="q3" value="2" min="0">（v1 原版 + v2 註解版，需 ≥ 2）</label>
+<label><input type="checkbox" id="q4" checked> 四、已推送到 GitHub</label>
+</form>
+<table id="t"><tr><th>題目</th><th>結果</th><th>得分</th></tr></table>
+<p>總分：<span id="total"></span></p></section>
+</main>
+<script>
+function g(){
+ const r=[
+  ["一、編譯執行", document.getElementById('q1').checked && +document.getElementById('q1v').value===55],
+  ["二、隨機驗證", +document.getElementById('q2').value===3],
+  ["三、Git 版本", +document.getElementById('q3').value>=2],
+  ["四、上傳 GitHub", document.getElementById('q4').checked],
+  ["五、評分系統", true]];
+ let s=0,h='<tr><th>題目</th><th>結果</th><th>得分</th></tr>';
+ for(const [n,ok] of r){ if(ok)s+=20; h+=`<tr><td>${n}</td><td style="color:var(${ok?'--ok':'--bad'})">${ok?'達標':'未達標'}</td><td>${ok?20:0}</td></tr>`; }
+ document.getElementById('t').innerHTML=h;
+ document.getElementById('total').textContent=s+' / 100';
+}
+document.getElementById('f').addEventListener('input',g); g();
+</script>
+</body></html>
