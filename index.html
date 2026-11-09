@@ -24,12 +24,46 @@ label{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0}
 .val{font-weight:700;padding:2px 10px;background:var(--code);border-radius:6px}
 #total{font-weight:700;font-size:1.3rem}
 a{color:var(--accent)}
+.hero{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:12px 0 20px}
+.hero .big{font-size:3.4rem;font-weight:800;line-height:1;color:var(--ok)}
+.hero .big small{font-size:1.4rem;color:var(--muted);font-weight:600}
+.hero .label{color:var(--muted);font-size:.9rem}
+.pf{display:inline-block;font-weight:700;font-size:.8rem;padding:2px 10px;border-radius:99px;color:#fff}
+.pf.pass{background:#188038}.pf.fail{background:#c5221f}
+.sub2{font-weight:700;margin:18px 0 8px;font-size:1.05rem}
+.inbox{border:1px dashed var(--line);border-radius:10px;padding:12px}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:8px 0}
+.row .k{min-width:15em}
+.row input,.row select{font:inherit;padding:4px 8px;min-width:7em;background:var(--code);color:var(--fg);border:1px solid var(--line);border-radius:6px}
+.row input{width:7em}
+.row input:disabled,.row select:disabled{opacity:1;color:var(--fg);font-weight:700;border-color:transparent;-webkit-text-fill-color:var(--fg)}
+.src{font-size:.8rem;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--code);color:var(--muted)}
+.src.manual{background:#fef7e0;color:#8a5a00}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+button{font:inherit;font-size:.95rem;padding:6px 14px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.card{border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.card .top{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700}
+.card .pts{font-size:1.6rem;font-weight:800;margin:4px 0}
+.card .pts small{font-size:.95rem;color:var(--muted);font-weight:600}
+.card .pts.pass{color:var(--ok)}.card .pts.fail{color:var(--bad)}
+.card .det{font-size:.9rem;color:var(--muted)}
+.why{margin-top:8px;background:var(--code);border-radius:8px;padding:8px 10px;font-size:.88rem}
+.why b{color:var(--bad)}
+.sumline{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:12px;font-weight:700;font-size:1.15rem}
+details{margin-top:14px;border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+summary{cursor:pointer;font-weight:600}
+@media (prefers-color-scheme:dark){.src.manual{background:#3a2f12;color:#fdd663}}
 </style>
 </head>
 <body><main>
 <h1>Fortran 期中考作業</h1>
 <p class="sub">姓名：熊振勛 ｜ 學號：414210087 ｜ GitHub：<a href="https://github.com/Samuel950910/midterm-exam">Samuel950910/midterm-exam</a></p>
-<p>AI 評分結果：<span class="score">100 / 100</span></p>
+<div class="hero">
+ <div><div class="label">AI 評分結果（依 grade.sh 實際驗證）</div><div class="big">100<small> / 100</small></div></div>
+ <div><span class="pf pass">PASS 5</span> <span class="pf fail" style="opacity:.35">FAIL 0</span></div>
+</div>
 
 <section><h2>一、1 加到 N 的 Fortran 程式並完成編譯（20 分）<span class="tag">達標 +20</span></h2>
 <p class="q">題目：指揮 AI 輸出一個能做 1 加到 N 的 Fortran 程式並完成編譯，確認可以成功執行計算並輸出結果。</p>
@@ -120,7 +154,30 @@ To https://github.com/Samuel950910/midterm-exam
 
 <section><h2>五、任務達成評分系統（20 分）<span class="tag">達標 +20</span></h2>
 <p class="q">題目：要求 AI 做一個任務達成評分系統，允許輸入前四題的結果，達標就給分。</p>
-<p>(1) 自動評分腳本 <code>grade.sh</code> 的執行結果：</p>
+
+<div class="sub2">① 輸入區域：前四題的結果 <span class="src" id="srcTag">已驗證資料（來自 grade.sh）</span></div>
+<div class="inbox">
+ <div class="row"><span class="k">一、編譯是否成功</span><select id="i1c" disabled><option value="1">成功</option><option value="0">失敗</option></select></div>
+ <div class="row"><span class="k">一、N=10 的輸出結果（應為 55）</span><input id="i1v" type="number" value="55" disabled></div>
+ <div class="row"><span class="k">二、三次隨機測試通過次數</span><input id="i2" type="number" min="0" max="3" value="3" disabled><span>/ 3</span></div>
+ <div class="row"><span class="k">三、Git commit 版本</span><select id="i3" disabled><option value="2">v1 原版 + v2 註解版</option><option value="1">只有 v1</option><option value="0">沒有 commit</option></select></div>
+ <div class="row"><span class="k">四、是否已推送到 GitHub</span><select id="i4" disabled><option value="1">已推送</option><option value="0">未推送</option></select></div>
+ <div class="btns">
+  <button class="primary" id="btnRegrade">重新評分</button>
+  <button id="btnMode">切換為手動試算</button>
+  <button id="btnReset">還原驗證資料</button>
+  <button id="btnDl">下載報告</button>
+ </div>
+ <div class="det" id="modeNote" style="font-size:.88rem;color:var(--muted)">目前顯示的是程式實際驗證過的結果，無法修改。按「切換為手動試算」可以輸入其他數值，看看未達標時會怎麼評分；試算結果不影響正式成績。</div>
+</div>
+
+<div class="sub2">② 結果區域：各項評分</div>
+<div class="cards" id="cards"></div>
+<div class="sumline"><span id="sumLabel">正式總分</span><span id="sumVal"></span></div>
+<div class="det" id="stamp" style="font-size:.85rem;color:var(--muted)"></div>
+
+<details><summary>③ 執行紀錄（終端機輸出，點開查看）</summary>
+<p>grade.sh：</p>
 <pre>[PASS] Q1 compile &amp; run (N=10 -&gt; 55) (+20)
 [PASS] Q2 three random tests (+20)
 [PASS] Q3 git v1 (original) + v2 (commented) (+20)
@@ -128,29 +185,61 @@ To https://github.com/Samuel950910/midterm-exam
 [PASS] Q5 grading system executed (+20)
 TOTAL: 100 / 100
 </pre>
-<p>(2) 線上評分器：輸入前四題的結果，達標的題目各得 20 分。</p>
-<form id="f">
-<label><input type="checkbox" id="q1" checked onclick="return false"> 一、程式編譯成功；N=10 的輸出結果：<span class="val" id="q1v">55</span></label>
-<label><input type="checkbox" id="q2c" checked onclick="return false"> 二、三次隨機驗證完成；通過次數：<span class="val" id="q2">3</span> / 3</label>
-<label><input type="checkbox" id="q3c" checked onclick="return false"> 三、Git 版本控制完成；commit 數：<span class="val" id="q3">2</span>（需 ≥ 2）</label>
-<label><input type="checkbox" id="q4" checked onclick="return false"> 四、已推送到 GitHub</label>
-</form>
-<table id="t"><tr><th>題目</th><th>結果</th><th>得分</th></tr></table>
-<p>總分：<span id="total"></span></p></section>
+<p>verify.sh（三次隨機測試）：</p>
+<pre>Test 1: N=639208  program=204293753236  formula=204293753236  PASS
+Test 2: N=203623  program=20731264876  formula=20731264876  PASS
+Test 3: N=863367  program=372701720028  formula=372701720028  PASS
+Result: 3/3 passed
+</pre>
+</details>
+</section>
 </main>
 <script>
-function g(){
- const r=[
-  ["一、編譯執行", document.getElementById('q1').checked && +document.getElementById('q1v').textContent===55],
-  ["二、隨機驗證", document.getElementById('q2c').checked && +document.getElementById('q2').textContent===3],
-  ["三、Git 版本", document.getElementById('q3c').checked && +document.getElementById('q3').textContent>=2],
-  ["四、上傳 GitHub", document.getElementById('q4').checked],
-  ["五、評分系統", true]];
- let s=0,h='<tr><th>題目</th><th>結果</th><th>得分</th></tr>';
- for(const [n,ok] of r){ if(ok)s+=20; h+=`<tr><td>${n}</td><td style="color:var(${ok?'--ok':'--bad'})">${ok?'達標':'未達標'}</td><td>${ok?20:0}</td></tr>`; }
- document.getElementById('t').innerHTML=h;
- document.getElementById('total').textContent=s+' / 100';
+const V={i1c:'1',i1v:'55',i2:'3',i3:'2',i4:'1'};
+const $=id=>document.getElementById(id);
+let manual=false;
+function rules(){
+ const c1=$('i1c').value==='1', v1=+$('i1v').value, n2=+$('i2').value, n3=+$('i3').value, p4=$('i4').value==='1';
+ return [
+  {t:'第一題：編譯與執行', ok:c1&&v1===55, det:`編譯：${c1?'成功':'失敗'}；N=10 輸出：${$('i1v').value||'（空白）'}`,
+   why:!c1?'程式必須能成功編譯。':'N=10 時 1+2+…+10 應為 55，輸出不正確。'},
+  {t:'第二題：三次隨機測試', ok:n2===3, det:`測試結果：${n2} / 3 次通過`, why:'需要通過全部三次隨機測試，才能取得此項的 20 分。'},
+  {t:'第三題：Git 版本控制', ok:n3>=2, det:`版本：${['沒有 commit','只有 v1','v1 原版 + v2 註解版'][n3]}`,
+   why:'需要先 commit 原版（v1），再 commit 逐行註解並驗證過的新版（v2）。'},
+  {t:'第四題：上傳 GitHub', ok:p4, det:`狀態：${p4?'已推送':'未推送'}`, why:'需要把有版本紀錄的程式碼推送到 GitHub。'},
+  {t:'第五題：評分系統', ok:true, det:'本評分系統可執行並產生評分', why:''}];
 }
-document.getElementById('f').addEventListener('input',g); g();
+function grade(){
+ const r=rules(); let s=0;
+ $('cards').innerHTML=r.map(x=>{ if(x.ok)s+=20; return `<div class="card"><div class="top"><span>${x.t}</span><span class="pf ${x.ok?'pass':'fail'}">${x.ok?'PASS':'FAIL'}</span></div>
+  <div class="pts ${x.ok?'pass':'fail'}">${x.ok?20:0}<small> / 20 分</small></div><div class="det">${x.det}</div>
+  ${x.ok?'':`<div class="why"><b>ⓘ 未達標原因</b><br>${x.why}</div>`}</div>`}).join('');
+ $('sumLabel').textContent=manual?'試算總分（非正式成績）':'正式總分';
+ $('sumVal').textContent=s+' / 100';
+ $('stamp').textContent='最後評分時間：'+new Date().toLocaleString('zh-TW');
+ return {r,s};
+}
+function setMode(m){
+ manual=m; ['i1c','i1v','i2','i3','i4'].forEach(id=>$(id).disabled=!m);
+ if(!m) for(const k in V) $(k).value=V[k];
+ $('srcTag').textContent=m?'手動輸入（試算）':'已驗證資料（來自 grade.sh）';
+ $('srcTag').className='src'+(m?' manual':'');
+ $('btnMode').textContent=m?'回到驗證資料':'切換為手動試算';
+ grade();
+}
+$('btnRegrade').onclick=grade;
+$('btnMode').onclick=()=>setMode(!manual);
+$('btnReset').onclick=()=>setMode(false);
+['i1c','i1v','i2','i3','i4'].forEach(id=>$(id).addEventListener('input',grade));
+$('btnDl').onclick=()=>{
+ const {r,s}=grade();
+ const txt=['Fortran 期中考作業 評分報告','姓名：熊振勛　學號：414210087',
+  '資料來源：'+(manual?'手動輸入（試算，非正式成績）':'已驗證資料（grade.sh）'),'時間：'+new Date().toLocaleString('zh-TW'),'',
+  ...r.map(x=>`[${x.ok?'PASS':'FAIL'}] ${x.t}　${x.ok?20:0}/20　${x.det}${x.ok?'':'　原因：'+x.why}`),'',
+  `總分：${s} / 100`].join('\r\n');
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿'+txt],{type:'text/plain;charset=utf-8'}));
+ a.download='評分報告_414210087.txt';a.click();
+};
+setMode(false);
 </script>
 </body></html>
