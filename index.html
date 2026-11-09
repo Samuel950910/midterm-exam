@@ -21,7 +21,7 @@ pre{background:var(--code);padding:12px;border-radius:8px;overflow-x:auto;font-s
 table{border-collapse:collapse;width:100%;font-size:.95rem}
 td,th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
 label{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0}
-input[type=number]{width:7em;padding:4px;background:var(--code);color:var(--fg);border:1px solid var(--line);border-radius:6px}
+.val{font-weight:700;padding:2px 10px;background:var(--code);border-radius:6px}
 #total{font-weight:700;font-size:1.3rem}
 a{color:var(--accent)}
 </style>
@@ -130,9 +130,9 @@ TOTAL: 100 / 100
 </pre>
 <p>(2) 線上評分器：輸入前四題的結果，達標的題目各得 20 分。</p>
 <form id="f">
-<label><input type="checkbox" id="q1" checked> 一、程式編譯成功；N=10 的輸出結果：<input type="number" id="q1v" value="55"></label>
-<label><input type="checkbox" id="q2c" checked> 二、三次隨機驗證完成；通過次數：<input type="number" id="q2" value="3" min="0" max="3"> / 3</label>
-<label><input type="checkbox" id="q3c" checked> 三、Git 版本控制完成；commit 數：<input type="number" id="q3" value="2" min="0">（需 ≥ 2）</label>
+<label><input type="checkbox" id="q1" checked> 一、程式編譯成功；N=10 的輸出結果：<span class="val" id="q1v">55</span></label>
+<label><input type="checkbox" id="q2c" checked> 二、三次隨機驗證完成；通過次數：<span class="val" id="q2">3</span> / 3</label>
+<label><input type="checkbox" id="q3c" checked> 三、Git 版本控制完成；commit 數：<span class="val" id="q3">2</span>（需 ≥ 2）</label>
 <label><input type="checkbox" id="q4" checked> 四、已推送到 GitHub</label>
 </form>
 <table id="t"><tr><th>題目</th><th>結果</th><th>得分</th></tr></table>
@@ -141,9 +141,9 @@ TOTAL: 100 / 100
 <script>
 function g(){
  const r=[
-  ["一、編譯執行", document.getElementById('q1').checked && +document.getElementById('q1v').value===55],
-  ["二、隨機驗證", document.getElementById('q2c').checked && +document.getElementById('q2').value===3],
-  ["三、Git 版本", document.getElementById('q3c').checked && +document.getElementById('q3').value>=2],
+  ["一、編譯執行", document.getElementById('q1').checked && +document.getElementById('q1v').textContent===55],
+  ["二、隨機驗證", document.getElementById('q2c').checked && +document.getElementById('q2').textContent===3],
+  ["三、Git 版本", document.getElementById('q3c').checked && +document.getElementById('q3').textContent>=2],
   ["四、上傳 GitHub", document.getElementById('q4').checked],
   ["五、評分系統", true]];
  let s=0,h='<tr><th>題目</th><th>結果</th><th>得分</th></tr>';
