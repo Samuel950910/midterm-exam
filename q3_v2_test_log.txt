@@ -1,0 +1,8 @@
+# Q3 v2 random test log
+# time: 2026-11-23 00:49:28 UTC
+# binary: v2 sum.f90 (line-by-line comments), gfortran 13.3.0
+$ bash verify.sh
+Test 1: N=1824  program=1664400  formula=1664400  PASS
+Test 2: N=405095  program=82051182060  formula=82051182060  PASS
+Test 3: N=46216  program=1067982436  formula=1067982436  PASS
+Result: 3/3 passed
