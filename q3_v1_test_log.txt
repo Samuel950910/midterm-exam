@@ -1,0 +1,16 @@
+# Q3 v1 (original) test log
+# time: 2026-11-23 01:15:50 UTC
+# binary: v1 sum.f90 (no comments), gfortran 13.3.0
+$ gfortran -Wall -Wextra -o sum sum.f90
+exit code: 0
+$ echo 10 | ./sum
+Enter N: Sum of 1 to 10 = 55
+
+$ echo 100 | ./sum
+Enter N: Sum of 1 to 100 = 5050
+
+$ bash verify.sh
+Test 1: N=28969  program=419615965  formula=419615965  PASS
+Test 2: N=853701  program=364403125551  formula=364403125551  PASS
+Test 3: N=979967  program=480168150528  formula=480168150528  PASS
+Result: 3/3 passed
