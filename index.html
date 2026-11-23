@@ -83,7 +83,7 @@ summary{cursor:pointer;font-weight:600}
 
 <section><h2>一、1 加到 N 的 Fortran 程式並完成編譯（20 分）</h2>
 <p class="q">題目：建立計算 1 加到 N 的 Fortran 程式，完成編譯並確認能正確執行。</p>
-<p>原始版本 v1（commit <code>b52e283</code>）：使用 <code>integer(kind=8)</code>（8 位元組整數），N = 1,000,000 時總和 500,000,500,000 也不會溢位。</p>
+<p>原始版本 v1（commit <code>b52e283</code>；第三題的 v1 提交 <code>3534236</code> 內容相同）：使用 <code>integer(kind=8)</code>（8 位元組整數），N = 1,000,000 時總和 500,000,500,000 也不會溢位。</p>
 <pre>program sum_to_n
   implicit none
   integer(kind=8) :: n, i, total
@@ -125,22 +125,50 @@ Result: 3/3 passed</pre></section>
 
 <section><h2>三、Git 版本控制 v1 → v2（20 分）</h2>
 <p class="q">題目：先將原始程式做 Git commit，再加入逐行註解，重新編譯驗證後，做第二次 commit。</p>
+<p>第三題採用最新一組提交：v1 <code>3534236</code>（原始版本）→ v2 <code>e335157</code>（逐行註解版）。較早的 <code>b52e283</code>、<code>88ff05f</code>、<code>58e7734</code> 都保留在紀錄中。</p>
 <pre>$ git log --oneline --grep="^v[12]"
+e335157 v2: add line-by-line comments and verify
+3534236 v1: add original Fortran sum program
 58e7734 v2: add line-by-line comments and verify
 88ff05f v2: add line-by-line comments to Fortran program (compiled and verified)
 b52e283 v1: Fortran program to sum 1 to N (original version)
 
-$ git diff --stat b52e283 58e7734 -- sum.f90
+$ git diff --stat 3534236 e335157 -- sum.f90
  sum.f90 | 26 ++++++++++++++++++++++++++
  1 file changed, 26 insertions(+)      ← 只新增註解，程式碼沒有改動</pre>
-<p>v2 重新編譯（<code>gfortran -Wall -Wextra</code>，exit code 0）並通過三次隨機驗證（紀錄檔 <code>q3_v2_test_log.txt</code>）：</p>
-<pre># Q3 v2 random test log
-# time: 2026-11-23 00:49:28 UTC
-# binary: v2 sum.f90 (line-by-line comments), gfortran 13.3.0
+<p>v1 提交前的編譯與驗證（紀錄檔 <code>q3_v1_test_log.txt</code>）：</p>
+<pre># Q3 v1 (original) test log
+# time: 2026-11-23 01:15:50 UTC
+# binary: v1 sum.f90 (no comments), gfortran 13.3.0
+$ gfortran -Wall -Wextra -o sum sum.f90
+exit code: 0
+$ echo 10 | ./sum
+Enter N: Sum of 1 to 10 = 55
+
+$ echo 100 | ./sum
+Enter N: Sum of 1 to 100 = 5050
+
 $ bash verify.sh
-Test 1: N=1824  program=1664400  formula=1664400  PASS
-Test 2: N=405095  program=82051182060  formula=82051182060  PASS
-Test 3: N=46216  program=1067982436  formula=1067982436  PASS
+Test 1: N=28969  program=419615965  formula=419615965  PASS
+Test 2: N=853701  program=364403125551  formula=364403125551  PASS
+Test 3: N=979967  program=480168150528  formula=480168150528  PASS
+Result: 3/3 passed</pre>
+<p>v2 重新編譯並通過三次隨機驗證（紀錄檔 <code>q3_v2_test_log.txt</code>）：</p>
+<pre># Q3 v2 random test log
+# time: 2026-11-23 01:15:57 UTC
+# binary: v2 sum.f90 (line-by-line comments), gfortran 13.3.0
+$ gfortran -Wall -Wextra -o sum sum.f90
+exit code: 0
+$ echo 10 | ./sum
+Enter N: Sum of 1 to 10 = 55
+
+$ echo 100 | ./sum
+Enter N: Sum of 1 to 100 = 5050
+
+$ bash verify.sh
+Test 1: N=923885  program=426782208555  formula=426782208555  PASS
+Test 2: N=338360  program=57243913980  formula=57243913980  PASS
+Test 3: N=121508  program=7382157786  formula=7382157786  PASS
 Result: 3/3 passed</pre>
 <details><summary>查看 v2 逐行註解版程式碼</summary>
 <pre>! 程式用途：讀入正整數 N，用 do 迴圈計算 1 + 2 + ... + N 並輸出（Fortran 中 ! 之後到行尾都是註解）
@@ -195,15 +223,15 @@ end program sum_to_n</pre></details></section>
  * [new branch]      claude/vigilant-hopper-2l1t8m -> claude/vigilant-hopper-2l1t8m
 
 $ git ls-remote origin
-58e7734607fad1cecd7dfa47dab2434ebef7d384  refs/heads/claude/vigilant-hopper-2l1t8m
+e335157994d59abe0131f6e4837948b44661bf91  refs/heads/claude/vigilant-hopper-2l1t8m
 
-$ git branch -r --contains b52e283      (v1)
+$ git branch -r --contains 3534236      (v1)
   origin/claude/vigilant-hopper-2l1t8m
-$ git branch -r --contains 58e7734      (v2)
+$ git branch -r --contains e335157      (v2)
   origin/claude/vigilant-hopper-2l1t8m</pre>
 <p>在 GitHub 查看：
-<a href="https://github.com/Samuel950910/midterm-exam/commit/b52e283733429c2216fd0defea176371611f3eb2">v1 commit b52e283</a> ｜
-<a href="https://github.com/Samuel950910/midterm-exam/commit/58e7734607fad1cecd7dfa47dab2434ebef7d384">v2 commit 58e7734</a> ｜
+<a href="https://github.com/Samuel950910/midterm-exam/commit/3534236bf0095c74723607df714387e51ba5dd1b">v1 commit 3534236</a> ｜
+<a href="https://github.com/Samuel950910/midterm-exam/commit/e335157994d59abe0131f6e4837948b44661bf91">v2 commit e335157</a> ｜
 <a href="https://github.com/Samuel950910/midterm-exam/commits/claude/vigilant-hopper-2l1t8m">分支提交紀錄</a></p></section>
 
 <section id="scorer"><h2>五、任務達成評分系統（20 分）</h2>
@@ -231,17 +259,17 @@ $ git branch -r --contains 58e7734      (v2)
 </div>
 
 <div class="qbox"><h3>第三題：Git 版本控制</h3>
- <div class="row"><span class="k">原始版本 v1 的 commit 識別碼</span><input id="q3a" type="text" placeholder="例如 b52e283"></div>
- <div class="row"><span class="k">註解版本 v2 的 commit 識別碼</span><input id="q3b" type="text" placeholder="例如 58e7734"></div>
+ <div class="row"><span class="k">原始版本 v1 的 commit 識別碼</span><input id="q3a" type="text" placeholder="例如 3534236"></div>
+ <div class="row"><span class="k">註解版本 v2 的 commit 識別碼</span><input id="q3b" type="text" placeholder="例如 e335157"></div>
  <div class="row"><span class="k">v2 是否已加入逐行註解</span><select id="q3c"><option value="yes">是</option><option value="no">否</option></select></div>
  <div class="row"><span class="k">v2 重新編譯並驗證</span><select id="q3d"><option value="yes">成功</option><option value="no">失敗／未執行</option></select></div>
- <div class="ev" data-ev>證據：<code>git log</code> 顯示 b52e283（v1）與 58e7734（v2）；<code>q3_v2_test_log.txt</code> 3/3 passed</div>
+ <div class="ev" data-ev>證據：<code>git log</code> 顯示 3534236（v1: add original Fortran sum program）與 e335157（v2: add line-by-line comments and verify）；<code>q3_v1_test_log.txt</code>、<code>q3_v2_test_log.txt</code> 皆 3/3 passed</div>
 </div>
 
 <div class="qbox"><h3>第四題：推送到 GitHub</h3>
  <div class="row"><span class="k">git push 結果</span><select id="q4a"><option value="ok">成功</option><option value="fail">失敗／未推送</option></select></div>
  <div class="row"><span class="k">GitHub 分支包含 v1 與 v2</span><select id="q4b"><option value="yes">是</option><option value="no">否</option></select></div>
- <div class="ev" data-ev>證據：<code>git ls-remote origin</code> 顯示 claude/vigilant-hopper-2l1t8m 位於 58e7734；<code>git branch -r --contains</code> 確認含 v1、v2</div>
+ <div class="ev" data-ev>證據：<code>git ls-remote origin</code> 顯示 claude/vigilant-hopper-2l1t8m 位於 e335157；<code>git branch -r --contains</code> 確認含 v1、v2</div>
 </div>
 
 <div class="btns">
@@ -305,8 +333,9 @@ TOTAL: 100 / 100</pre></details>
 <blockquote>我沒有建立新的 commit。原始版本 v1 早就保存在 Git 裡了，識別碼是 <code>b52e283733429c2216fd0defea176371611f3eb2</code>……資料夾裡沒有任何變更，Git 會拒絕這次提交（<code>nothing to commit</code>）。</blockquote>
 <blockquote>第三題完成：v2 已重新編譯、三次隨機測試全部通過，提交為 <code>58e7734</code>……v2 只是在 v1 中間插入 26 行註解，原本的程式碼一個字都沒改。</blockquote>
 <div class="who">驗證結果與問題處理 <span class="nb">整理</span></div>
-<ul><li>v1 沿用既有的 <code>b52e283</code>，所以提交訊息和指定的不同（原因：沒有變更可提交，而且會讓 grade.sh 誤判）。</li>
-<li>v2（<code>58e7734</code>）：19 行程式碼都有【用途】【語法】註解；拿掉註解後和 v1 相同；編譯 exit 0；隨機測試 3/3 PASS。</li></ul>
+<ul><li>第 4 輪：v1 先沿用既有的 <code>b52e283</code>，提交訊息和指定的不同（原因：沒有變更可提交，而且會讓 grade.sh 誤判）。</li>
+<li>v2（<code>58e7734</code>）：19 行程式碼都有【用途】【語法】註解；拿掉註解後和 v1 相同；編譯 exit 0；隨機測試 3/3 PASS。</li>
+<li>第 13 輪：依學生要求補上指定的 v1：先把 sum.f90 還原成原始版並提交 <code>3534236</code>（v1: add original Fortran sum program），再加回註解並提交 <code>e335157</code>（v2: add line-by-line comments and verify）。兩次都重新編譯並通過 3/3 隨機測試；grade.sh 為 100 / 100。</li></ul>
 </details>
 
 <details class="dlg"><summary>第四題：推送到 GitHub（第 6、9、10 輪）</summary>
@@ -318,7 +347,7 @@ TOTAL: 100 / 100</pre></details>
 <blockquote>第四題完成：GitHub 上的工作分支已經包含 v1 和 v2 兩筆提交，我同時用 Git 指令和 GitHub 介面確認過。推送不需要您登入或授權。</blockquote>
 <blockquote>GitHub 已經用合併後的新版重新發布了您的網站，發布結果是成功。……這個雲端環境的網路連不到 samuel950910.github.io，我沒辦法直接打開網站看畫面，網站畫面尚未驗證，需要您自己打開確認。</blockquote>
 <div class="who">驗證結果 <span class="nb">整理</span></div>
-<ul><li><code>git branch -r --contains</code> 確認遠端分支含 <code>b52e283</code>、<code>58e7734</code>。</li>
+<ul><li><code>git branch -r --contains</code> 確認遠端分支含 <code>b52e283</code>、<code>58e7734</code>，以及後來補上的 <code>3534236</code>、<code>e335157</code>。</li>
 <li>PR #1 由學生合併（<code>c1639ae</code>）；GitHub Pages 第 7 次發布 success。</li>
 <li>網站畫面由 AI 標為「尚未驗證」，需學生自行打開確認。</li></ul>
 </details>
@@ -340,7 +369,7 @@ TOTAL: 100 / 100</pre></details>
 // ===== 有執行紀錄支持的驗證資料（來自實際終端機輸出） =====
 const VERIFIED={q1c:'ok',q1n:'10',q1v:'55',
  q2n1:'566218',q2v1:'160301694871',q2n2:'639697',q2v2:'204606445753',q2n3:'950333',q2v3:'451566880611',
- q3a:'b52e283',q3b:'58e7734',q3c:'yes',q3d:'yes',q4a:'ok',q4b:'yes'};
+ q3a:'3534236',q3b:'e335157',q3c:'yes',q3d:'yes',q4a:'ok',q4b:'yes'};
 const FIELDS=Object.keys(VERIFIED);
 // ===== 試算範例 =====
 const PRESETS={
