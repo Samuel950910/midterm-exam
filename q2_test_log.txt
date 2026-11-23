@@ -1,0 +1,7 @@
+# Q2 random test log
+# time: 2026-11-23 00:47:30 UTC
+# binary: v1 sum.f90 (commit b52e283), gfortran 13.3.0
+Test 1: N=566218  program=160301694871  formula=160301694871  PASS
+Test 2: N=639697  program=204606445753  formula=204606445753  PASS
+Test 3: N=950333  program=451566880611  formula=451566880611  PASS
+Result: 3/3 passed
